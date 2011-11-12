@@ -1,0 +1,191 @@
+
+
+options {
+   STATIC = false ;
+   IGNORE_CASE = true;
+}
+
+PARSER_BEGIN(_Calculator)
+package com.github.stringcalculator;
+
+import java.io.StringReader;
+import java.math.BigDecimal;
+
+class _Calculator {
+     public _Calculator( String expression ) {
+        this( new StringReader( expression ) );
+     }
+}
+PARSER_END(_Calculator)
+
+
+
+SKIP : {" "}
+TOKEN : { < EOL : "\n" | "\r" | "\r\n" > }
+TOKEN : { < PLUS : "+" > }
+TOKEN : { < MINUS : "-" > }
+TOKEN : { < TIMES : "*" > }
+TOKEN : { < DIVIDE : "/" > }
+TOKEN : { < OPEN_PAR : "(" > }
+TOKEN : { < CLOSE_PAR : ")" > }
+TOKEN : { < EQ : "==" > }
+TOKEN : { < NE : "!=" > }
+TOKEN : { < GT : ">" > }
+TOKEN : { < GE : ">=" > }
+TOKEN : { < LT : "<" > }
+TOKEN : { < LE : "<=" > }
+TOKEN : { < AND : "and" > }
+TOKEN : { < OR : "or" > }
+
+
+
+TOKEN : { < NUMBER : <DIGITS> | <DIGITS> "." <DIGITS> | <DIGITS> "." | "." <DIGITS> > }
+TOKEN : { < #DIGITS : (["0"-"9"])+ > }
+
+
+
+BigDecimal caculate()  :
+{
+   BigDecimal result = null;
+}
+{
+     (
+        result = Expression()
+     )+
+     <EOF>
+
+     { return result; }
+}
+
+boolean check():{   boolean result = false;
+}
+{     (
+        result = logical()
+     )+
+     <EOF>
+
+     { return result; }
+}
+
+boolean logical():{
+   boolean left ;
+   boolean right ;
+} 
+{
+   left = relational()
+   (
+
+      <AND>
+         right = relational()
+         { left = left && right ; }
+      |
+      <OR>
+         right = relational()
+         { left = left || right ; }
+
+   )*
+ 
+   {
+       return left ;
+   }
+}
+
+boolean relational()  :
+{
+   BigDecimal left ;
+   BigDecimal middle;
+   BigDecimal right ;
+   boolean result = false;
+} 
+{
+   left = Expression()
+   (
+
+      <EQ>
+         right = Expression()
+         { result = left.compareTo( right ) == 0 ; }
+      |
+      <NE>
+         right = Expression()
+         { result = left.compareTo( right ) != 0 ; }
+     |
+      <GT>
+         right = Expression()
+         { result = left.compareTo( right ) > 0 ; }
+     |
+      <GE>
+         right = Expression()
+         { result = left.compareTo( right ) >= 0 ; }
+     |
+      <LT>
+         right = Expression()
+         { result = left.compareTo( right ) < 0 ; }
+     |
+      <LE>
+         right = Expression()
+         { result = left.compareTo( right ) <= 0 ; }
+   )*
+   
+   {
+       return result ;
+   }
+}
+
+BigDecimal Expression() :
+{
+   BigDecimal i ;
+   BigDecimal value ;
+}
+{
+   value = Term()
+   (
+      <PLUS>
+         i = Term()
+         { value = value.add( i ) ; }
+      |
+      <MINUS>
+         i = Term()
+         { value = value.subtract( i ) ; }
+   )*
+   { return value ; }
+}
+
+BigDecimal Term()  :
+{
+   BigDecimal i ;
+   BigDecimal value ;
+}
+{
+   value = Primary()
+   (
+     <TIMES>
+        i = Primary()
+        { value = value.multiply( i) ; }
+     |
+     <DIVIDE>
+        i = Primary()
+        { value = value.divide( i, 8, BigDecimal.ROUND_HALF_UP ); }
+   )*
+   { return value ; }
+}
+
+
+BigDecimal Primary()  :
+{
+   Token t ;
+   BigDecimal d ;
+}
+{
+   t=<NUMBER>
+   { return new BigDecimal( t.image ) ; }
+   |
+    <OPEN_PAR> d=Expression() <CLOSE_PAR>
+   { return d ; }
+   |
+   <MINUS> 
+     d=Primary()
+     { return d.negate() ; }
+}
+
+
+
