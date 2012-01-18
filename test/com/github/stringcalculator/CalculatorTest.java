@@ -13,7 +13,16 @@ public class CalculatorTest {
 
 	@Test
 	public void testCheck() throws ParseException {
-		assertTrue( Calculator.check(" 2 > 1 "));
+		assertTrue( Calculator.check(" 2 > 1  "));
 	}
 
+	@Test
+	public void testCheck2() throws ParseException {
+		assertFalse( Calculator.check( "false and true" ));
+	}
+	
+	@Test
+	public void testCheck3() throws ParseException {
+		assertTrue( Calculator.check( "true and true and false " ));
+	}
 }

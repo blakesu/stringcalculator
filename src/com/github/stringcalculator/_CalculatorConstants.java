@@ -41,9 +41,13 @@ public interface _CalculatorConstants {
   /** RegularExpression Id. */
   int OR = 16;
   /** RegularExpression Id. */
-  int NUMBER = 17;
+  int TRUE = 17;
   /** RegularExpression Id. */
-  int DIGITS = 18;
+  int FALSE = 18;
+  /** RegularExpression Id. */
+  int NUMBER = 19;
+  /** RegularExpression Id. */
+  int DIGITS = 20;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -67,6 +71,8 @@ public interface _CalculatorConstants {
     "\"<=\"",
     "\"and\"",
     "\"or\"",
+    "\"true\"",
+    "\"false\"",
     "<NUMBER>",
     "<DIGITS>",
   };

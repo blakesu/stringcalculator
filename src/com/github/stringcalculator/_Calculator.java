@@ -9,7 +9,7 @@ class _Calculator implements _CalculatorConstants {
         this( new StringReader( expression ) );
      }
 
-  final public BigDecimal caculate() throws ParseException {
+  final public BigDecimal calculate() throws ParseException {
    BigDecimal result = null;
     label_1:
     while (true) {
@@ -38,6 +38,8 @@ class _Calculator implements _CalculatorConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MINUS:
       case OPEN_PAR:
+      case TRUE:
+      case FALSE:
       case NUMBER:
         ;
         break;
@@ -92,8 +94,34 @@ class _Calculator implements _CalculatorConstants {
    BigDecimal middle;
    BigDecimal right ;
    boolean result = false;
-    left = Expression();
     label_4:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case TRUE:
+      case FALSE:
+        ;
+        break;
+      default:
+        jj_la1[4] = jj_gen;
+        break label_4;
+      }
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case TRUE:
+        jj_consume_token(TRUE);
+       {if (true) return true;}
+        break;
+      case FALSE:
+        jj_consume_token(FALSE);
+       {if (true) return false;}
+        break;
+      default:
+        jj_la1[5] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+    left = Expression();
+    label_5:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EQ:
@@ -105,8 +133,8 @@ class _Calculator implements _CalculatorConstants {
         ;
         break;
       default:
-        jj_la1[4] = jj_gen;
-        break label_4;
+        jj_la1[6] = jj_gen;
+        break label_5;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EQ:
@@ -140,7 +168,7 @@ class _Calculator implements _CalculatorConstants {
            result = left.compareTo( right ) <= 0 ;
         break;
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[7] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -153,7 +181,7 @@ class _Calculator implements _CalculatorConstants {
    BigDecimal i ;
    BigDecimal value ;
     value = Term();
-    label_5:
+    label_6:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
@@ -161,8 +189,8 @@ class _Calculator implements _CalculatorConstants {
         ;
         break;
       default:
-        jj_la1[6] = jj_gen;
-        break label_5;
+        jj_la1[8] = jj_gen;
+        break label_6;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
@@ -176,7 +204,7 @@ class _Calculator implements _CalculatorConstants {
            value = value.subtract( i ) ;
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -189,7 +217,7 @@ class _Calculator implements _CalculatorConstants {
    BigDecimal i ;
    BigDecimal value ;
     value = Primary();
-    label_6:
+    label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
@@ -197,8 +225,8 @@ class _Calculator implements _CalculatorConstants {
         ;
         break;
       default:
-        jj_la1[8] = jj_gen;
-        break label_6;
+        jj_la1[10] = jj_gen;
+        break label_7;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
@@ -212,7 +240,7 @@ class _Calculator implements _CalculatorConstants {
           value = value.divide( i, 8, BigDecimal.ROUND_HALF_UP );
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[11] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -241,7 +269,7 @@ class _Calculator implements _CalculatorConstants {
        {if (true) return d.negate() ;}
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -257,13 +285,13 @@ class _Calculator implements _CalculatorConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[11];
+  final private int[] jj_la1 = new int[13];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20090,0x20090,0x18000,0x18000,0x7e00,0x7e00,0x18,0x18,0x60,0x60,0x20090,};
+      jj_la1_0 = new int[] {0x80090,0xe0090,0x18000,0x18000,0x60000,0x60000,0x7e00,0x7e00,0x18,0x18,0x60,0x60,0x80090,};
    }
 
   /** Constructor with InputStream. */
@@ -277,7 +305,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -291,7 +319,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -301,7 +329,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -311,7 +339,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -320,7 +348,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -329,7 +357,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 11; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -380,12 +408,12 @@ class _Calculator implements _CalculatorConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[19];
+    boolean[] la1tokens = new boolean[21];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 13; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -394,7 +422,7 @@ class _Calculator implements _CalculatorConstants {
         }
       }
     }
-    for (int i = 0; i < 19; i++) {
+    for (int i = 0; i < 21; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

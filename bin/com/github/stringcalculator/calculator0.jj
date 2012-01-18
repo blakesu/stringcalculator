@@ -36,6 +36,8 @@ TOKEN : { < LT : "<" > }
 TOKEN : { < LE : "<=" > }
 TOKEN : { < AND : "and" > }
 TOKEN : { < OR : "or" > }
+TOKEN : { < TRUE : "true" > }
+TOKEN : { < FALSE : "false" > }
 
 
 
@@ -44,7 +46,7 @@ TOKEN : { < #DIGITS : (["0"-"9"])+ > }
 
 
 
-BigDecimal caculate()  :
+BigDecimal calculate()  :
 {
    BigDecimal result = null;
 }
@@ -82,7 +84,6 @@ boolean logical():{
       <OR>
          right = relational()
          { left = left || right ; }
-
    )*
  
    {
@@ -98,6 +99,16 @@ boolean relational()  :
    boolean result = false;
 } 
 {
+   (     < TRUE>
+     {
+       return true;     }
+     | 
+     < FALSE>
+     {
+       return false;
+     }
+   )*
+  
    left = Expression()
    (
 
@@ -185,6 +196,7 @@ BigDecimal Primary()  :
    <MINUS> 
      d=Primary()
      { return d.negate() ; }
+   
 }
 
 
