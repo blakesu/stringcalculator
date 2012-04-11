@@ -12,17 +12,17 @@ public class CalculatorTest {
 	}
 
 	@Test
-	public void testCheck() throws ParseException {
-		assertTrue( Calculator.check(" 2 > 1  "));
-	}
-
-	@Test
-	public void testCheck2() throws ParseException {
-		assertFalse( Calculator.check( "false and true" ));
+	public void testCalculate1() throws ParseException {
+		assertEquals("29", Calculator.calculate(" 3*9 +2 ").toString() );
 	}
 	
 	@Test
-	public void testCheck3() throws ParseException {
-		assertTrue( Calculator.check( "true and true and false " ));
+	public void testCalculate2() throws ParseException {
+		assertEquals("58", Calculator.calculate(" 2* ( 3*9 +2 ) ").toString() );
+	}
+	
+	@Test
+	public void testCalculate3() throws ParseException {
+		assertEquals("2.5", Calculator.calculate(" 5/2 ").toString() );
 	}
 }

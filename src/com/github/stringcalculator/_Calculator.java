@@ -30,158 +30,11 @@ class _Calculator implements _CalculatorConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public boolean check() throws ParseException {
-   boolean result = false;
-    label_2:
-    while (true) {
-      result = logical();
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case MINUS:
-      case OPEN_PAR:
-      case TRUE:
-      case FALSE:
-      case NUMBER:
-        ;
-        break;
-      default:
-        jj_la1[1] = jj_gen;
-        break label_2;
-      }
-    }
-    jj_consume_token(0);
-       {if (true) return result;}
-    throw new Error("Missing return statement in function");
-  }
-
-  final public boolean logical() throws ParseException {
-   boolean left ;
-   boolean right ;
-    left = relational();
-    label_3:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case AND:
-      case OR:
-        ;
-        break;
-      default:
-        jj_la1[2] = jj_gen;
-        break label_3;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case AND:
-        jj_consume_token(AND);
-        right = relational();
-           left = left && right ;
-        break;
-      case OR:
-        jj_consume_token(OR);
-        right = relational();
-           left = left || right ;
-        break;
-      default:
-        jj_la1[3] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
-       {if (true) return left ;}
-    throw new Error("Missing return statement in function");
-  }
-
-  final public boolean relational() throws ParseException {
-   BigDecimal left ;
-   BigDecimal middle;
-   BigDecimal right ;
-   boolean result = false;
-    label_4:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TRUE:
-      case FALSE:
-        ;
-        break;
-      default:
-        jj_la1[4] = jj_gen;
-        break label_4;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TRUE:
-        jj_consume_token(TRUE);
-       {if (true) return true;}
-        break;
-      case FALSE:
-        jj_consume_token(FALSE);
-       {if (true) return false;}
-        break;
-      default:
-        jj_la1[5] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
-    left = Expression();
-    label_5:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case EQ:
-      case NE:
-      case GT:
-      case GE:
-      case LT:
-      case LE:
-        ;
-        break;
-      default:
-        jj_la1[6] = jj_gen;
-        break label_5;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case EQ:
-        jj_consume_token(EQ);
-        right = Expression();
-           result = left.compareTo( right ) == 0 ;
-        break;
-      case NE:
-        jj_consume_token(NE);
-        right = Expression();
-           result = left.compareTo( right ) != 0 ;
-        break;
-      case GT:
-        jj_consume_token(GT);
-        right = Expression();
-           result = left.compareTo( right ) > 0 ;
-        break;
-      case GE:
-        jj_consume_token(GE);
-        right = Expression();
-           result = left.compareTo( right ) >= 0 ;
-        break;
-      case LT:
-        jj_consume_token(LT);
-        right = Expression();
-           result = left.compareTo( right ) < 0 ;
-        break;
-      case LE:
-        jj_consume_token(LE);
-        right = Expression();
-           result = left.compareTo( right ) <= 0 ;
-        break;
-      default:
-        jj_la1[7] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
-       {if (true) return result ;}
-    throw new Error("Missing return statement in function");
-  }
-
   final public BigDecimal Expression() throws ParseException {
    BigDecimal i ;
    BigDecimal value ;
     value = Term();
-    label_6:
+    label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
@@ -189,8 +42,8 @@ class _Calculator implements _CalculatorConstants {
         ;
         break;
       default:
-        jj_la1[8] = jj_gen;
-        break label_6;
+        jj_la1[1] = jj_gen;
+        break label_2;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
@@ -204,7 +57,7 @@ class _Calculator implements _CalculatorConstants {
            value = value.subtract( i ) ;
         break;
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -217,7 +70,7 @@ class _Calculator implements _CalculatorConstants {
    BigDecimal i ;
    BigDecimal value ;
     value = Primary();
-    label_7:
+    label_3:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
@@ -225,8 +78,8 @@ class _Calculator implements _CalculatorConstants {
         ;
         break;
       default:
-        jj_la1[10] = jj_gen;
-        break label_7;
+        jj_la1[3] = jj_gen;
+        break label_3;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case TIMES:
@@ -237,10 +90,10 @@ class _Calculator implements _CalculatorConstants {
       case DIVIDE:
         jj_consume_token(DIVIDE);
         i = Primary();
-          value = value.divide( i, 8, BigDecimal.ROUND_HALF_UP );
+          value = value.divide( i, 8, BigDecimal.ROUND_HALF_UP ).stripTrailingZeros();
         break;
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[4] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -269,7 +122,7 @@ class _Calculator implements _CalculatorConstants {
        {if (true) return d.negate() ;}
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -285,13 +138,13 @@ class _Calculator implements _CalculatorConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[13];
+  final private int[] jj_la1 = new int[6];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x80090,0xe0090,0x18000,0x18000,0x60000,0x60000,0x7e00,0x7e00,0x18,0x18,0x60,0x60,0x80090,};
+      jj_la1_0 = new int[] {0x290,0x18,0x18,0x60,0x60,0x290,};
    }
 
   /** Constructor with InputStream. */
@@ -305,7 +158,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -319,7 +172,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -329,7 +182,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -339,7 +192,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -348,7 +201,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -357,7 +210,7 @@ class _Calculator implements _CalculatorConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -408,12 +261,12 @@ class _Calculator implements _CalculatorConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[21];
+    boolean[] la1tokens = new boolean[11];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 6; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -422,7 +275,7 @@ class _Calculator implements _CalculatorConstants {
         }
       }
     }
-    for (int i = 0; i < 21; i++) {
+    for (int i = 0; i < 11; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

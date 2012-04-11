@@ -25,29 +25,9 @@ public interface _CalculatorConstants {
   /** RegularExpression Id. */
   int CLOSE_PAR = 8;
   /** RegularExpression Id. */
-  int EQ = 9;
+  int NUMBER = 9;
   /** RegularExpression Id. */
-  int NE = 10;
-  /** RegularExpression Id. */
-  int GT = 11;
-  /** RegularExpression Id. */
-  int GE = 12;
-  /** RegularExpression Id. */
-  int LT = 13;
-  /** RegularExpression Id. */
-  int LE = 14;
-  /** RegularExpression Id. */
-  int AND = 15;
-  /** RegularExpression Id. */
-  int OR = 16;
-  /** RegularExpression Id. */
-  int TRUE = 17;
-  /** RegularExpression Id. */
-  int FALSE = 18;
-  /** RegularExpression Id. */
-  int NUMBER = 19;
-  /** RegularExpression Id. */
-  int DIGITS = 20;
+  int DIGITS = 10;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -63,16 +43,6 @@ public interface _CalculatorConstants {
     "\"/\"",
     "\"(\"",
     "\")\"",
-    "\"==\"",
-    "\"!=\"",
-    "\">\"",
-    "\">=\"",
-    "\"<\"",
-    "\"<=\"",
-    "\"and\"",
-    "\"or\"",
-    "\"true\"",
-    "\"false\"",
     "<NUMBER>",
     "<DIGITS>",
   };

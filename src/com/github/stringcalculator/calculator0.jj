@@ -28,17 +28,6 @@ TOKEN : { < TIMES : "*" > }
 TOKEN : { < DIVIDE : "/" > }
 TOKEN : { < OPEN_PAR : "(" > }
 TOKEN : { < CLOSE_PAR : ")" > }
-TOKEN : { < EQ : "==" > }
-TOKEN : { < NE : "!=" > }
-TOKEN : { < GT : ">" > }
-TOKEN : { < GE : ">=" > }
-TOKEN : { < LT : "<" > }
-TOKEN : { < LE : "<=" > }
-TOKEN : { < AND : "and" > }
-TOKEN : { < OR : "or" > }
-TOKEN : { < TRUE : "true" > }
-TOKEN : { < FALSE : "false" > }
-
 
 
 TOKEN : { < NUMBER : <DIGITS> | <DIGITS> "." <DIGITS> | <DIGITS> "." | "." <DIGITS> > }
@@ -59,88 +48,7 @@ BigDecimal calculate()  :
      { return result; }
 }
 
-boolean check():{   boolean result = false;
-}
-{     (
-        result = logical()
-     )+
-     <EOF>
 
-     { return result; }
-}
-
-boolean logical():{
-   boolean left ;
-   boolean right ;
-} 
-{
-   left = relational()
-   (
-
-      <AND>
-         right = relational()
-         { left = left && right ; }
-      |
-      <OR>
-         right = relational()
-         { left = left || right ; }
-   )*
- 
-   {
-       return left ;
-   }
-}
-
-boolean relational()  :
-{
-   BigDecimal left ;
-   BigDecimal middle;
-   BigDecimal right ;
-   boolean result = false;
-} 
-{
-   (     < TRUE>
-     {
-       return true;     }
-     | 
-     < FALSE>
-     {
-       return false;
-     }
-   )*
-  
-   left = Expression()
-   (
-
-      <EQ>
-         right = Expression()
-         { result = left.compareTo( right ) == 0 ; }
-      |
-      <NE>
-         right = Expression()
-         { result = left.compareTo( right ) != 0 ; }
-     |
-      <GT>
-         right = Expression()
-         { result = left.compareTo( right ) > 0 ; }
-     |
-      <GE>
-         right = Expression()
-         { result = left.compareTo( right ) >= 0 ; }
-     |
-      <LT>
-         right = Expression()
-         { result = left.compareTo( right ) < 0 ; }
-     |
-      <LE>
-         right = Expression()
-         { result = left.compareTo( right ) <= 0 ; }
-   )*
-   
-   {
-       return result ;
-   }
-}
 
 BigDecimal Expression() :
 {
@@ -175,7 +83,7 @@ BigDecimal Term()  :
      |
      <DIVIDE>
         i = Primary()
-        { value = value.divide( i, 8, BigDecimal.ROUND_HALF_UP ); }
+        { value = value.divide( i, 8, BigDecimal.ROUND_HALF_UP ).stripTrailingZeros(); }
    )*
    { return value ; }
 }
