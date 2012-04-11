@@ -25,4 +25,9 @@ public class CalculatorTest {
 	public void testCalculate3() throws ParseException {
 		assertEquals("2.5", Calculator.calculate(" 5/2 ").toString() );
 	}
+	
+	@Test
+	public void testCalculate4() throws ParseException {
+		assertEquals("3.4", Calculator.calculate(" 8.4-5 ").toString() );
+	}
 }
